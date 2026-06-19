@@ -25,7 +25,7 @@ RUN curl -sSL https://rover.apollo.dev/nix/latest | sh && \
 # Start subgraph and compose supergraph schema
 RUN nohup python -m uvicorn app:app --port 4001 --host 0.0.0.0 > /dev/null 2>&1 & \
     sleep 5 && \
-    /root/.rover/bin/rover supergraph compose \
+    /root/.rover/bin/rover supergraph compose --elv2-license=accept  \
     --config ./supergraph-config.yaml \
     --output ./supergraph-schema.graphql && \
     kill %1 2>/dev/null || true
