@@ -19,9 +19,7 @@ COPY requirements.txt* .
 RUN python -m pip install --no-cache-dir "strawberry-graphql[fastapi]" uvicorn
 
 # Download Rover CLI
-RUN mkdir -p /root/.rover/bin && \
-    curl -sSL https://rover.apollo.dev/download/linux/x86_64/latest | \
-    tar xz -C /root/.rover/bin rover && \
+RUN curl -sSL https://rover.apollo.dev/nix/latest | sh && \
     /root/.rover/bin/rover --version
 
 # Start subgraph and compose supergraph schema
