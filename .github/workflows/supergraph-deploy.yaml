@@ -54,11 +54,11 @@ jobs:
 
       - name: Compose Supergraph Schema
         run: |
-          $HOME/.rover/bin/rover supergraph compose \
+          $HOME/.rover/bin/rover supergraph compose --elv2-license=accept  \
             --config ./supergraph-config.yaml \
             --output ./supergraph-schema.graphql
           
-          # Verify schema was created
+          # Verify schema was created 
           if [ ! -f supergraph-schema.graphql ] || [ ! -s supergraph-schema.graphql ]; then
             echo "Error: supergraph-schema.graphql not created or empty"
             exit 1
