@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  subgraph:
+    build:
+      dockerfile: Dockerfile
+      target: subgraph
+    ports:
+      - "4001:4001"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:4001/graphql')"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  router:
+    build:
+      dockerfile: Dockerfile
+      target: router
+    ports:
+      - "4000:4000"
+    depends_on:
+      subgraph:
+        condition: service_healthy
+    environment:
+      - APOLLO_LOG_LEVEL=info
