@@ -36,10 +36,9 @@ jobs:
 
       - name: Download Rover CLI
         run: |
-          mkdir -p "$HOME/.rover/bin"
           curl -sSL https://rover.apollo.dev/nix/latest | sh
-          echo "$HOME/.rover/bin" >> $GITHUB_PATH
-          rover --version
+          echo "$HOME/.rover/bin/rover" >> $GITHUB_PATH
+          $HOME/.rover/bin/rover --version
 
       - name: Start subgraph service
         run: |
@@ -55,7 +54,7 @@ jobs:
 
       - name: Compose Supergraph Schema
         run: |
-          rover supergraph compose \
+          $HOME/.rover/bin/rover supergraph compose \
             --config ./supergraph-config.yaml \
             --output ./supergraph-schema.graphql
           
@@ -123,7 +122,7 @@ jobs:
 
       - name: Compose Supergraph Schema
         run: |
-          rover supergraph compose \
+          $HOME/.rover/bin/rover supergraph compose \
             --config ./supergraph-config.yaml \
             --output ./supergraph-schema.graphql
 
