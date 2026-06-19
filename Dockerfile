@@ -25,9 +25,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Download Apollo Router
-RUN mkdir -p /root/.router/bin && \
-    curl -sSL https://router.apollo.dev/download/linux/x86_64/latest | \
-    tar xz -C /root/.router/bin router && \
+RUN curl -sSL https://router.apollo.dev/download/nix/latest | sh && \
     /root/.router/bin/router --version
 
 WORKDIR /app
