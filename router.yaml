@@ -1,0 +1,15 @@
+supergraph:
+  listen: 127.0.0.1:4000
+  introspection: true
+
+cors:
+  origins:
+    - http://localhost:3000
+
+include_subgraph_errors:
+  all: true
+
+telemetry:
+  logging:
+    level: info
+    format: text
