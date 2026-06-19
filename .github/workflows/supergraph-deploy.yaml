@@ -37,7 +37,7 @@ jobs:
       - name: Download Rover CLI
         run: |
           mkdir -p "$HOME/.rover/bin"
-          curl -sSL https://rover.apollo.dev/download/linux/x86_64/latest | tar xz -C "$HOME/.rover/bin" rover
+          curl -sSL https://rover.apollo.dev/nix/latest | sh
           echo "$HOME/.rover/bin" >> $GITHUB_PATH
           rover --version
 
@@ -111,7 +111,7 @@ jobs:
       - name: Download Rover CLI
         run: |
           mkdir -p "$HOME/.rover/bin"
-          curl -sSL https://rover.apollo.dev/download/linux/x86_64/latest | tar xz -C "$HOME/.rover/bin" rover
+          curl -sSL https://rover.apollo.dev/nix/latest | sh
           echo "$HOME/.rover/bin" >> $GITHUB_PATH
 
       - name: Start subgraph service
