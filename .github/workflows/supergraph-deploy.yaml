@@ -18,6 +18,10 @@ on:
       - 'app.py'
       - 'router.yaml'
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   compose-and-validate:
     runs-on: ubuntu-latest
@@ -97,41 +101,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Download composed supergraph schema
+        uses: actions/download-artifact@v4
         with:
-          python-version: '3.11'
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install "strawberry-graphql[fastapi]" uvicorn
-
-      - name: Download Rover CLI
-        run: |
-          mkdir -p "$HOME/.rover/bin"
-          curl -sSL https://rover.apollo.dev/nix/latest | sh
-          echo "$HOME/.rover/bin" >> $GITHUB_PATH
-
-      - name: Start subgraph service
-        run: |
-          uvicorn app:app --port 4001 --host 127.0.0.1 > /tmp/subgraph.log 2>&1 &
-          SUBGRAPH_PID=$!
-          echo "SUBGRAPH_PID=$SUBGRAPH_PID" >> $GITHUB_ENV
-          sleep 3
-
-      - name: Compose Supergraph Schema
-        run: |
-          $HOME/.rover/bin/rover supergraph compose --elv2-license=accept  \
-            --config ./supergraph-config.yaml \
-            --output ./supergraph-schema.graphql
-
-      - name: Kill subgraph service
-        if: always()
-        run: |
-          if [ ! -z "$SUBGRAPH_PID" ]; then
-            kill $SUBGRAPH_PID 2>/dev/null || true
-          fi
+          name: supergraph-schema
+          path: .
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
