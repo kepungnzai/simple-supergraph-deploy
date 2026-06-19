@@ -122,7 +122,7 @@ jobs:
 
       - name: Compose Supergraph Schema
         run: |
-          $HOME/.rover/bin/rover supergraph compose \
+          $HOME/.rover/bin/rover supergraph compose --elv2-license=accept  \
             --config ./supergraph-config.yaml \
             --output ./supergraph-schema.graphql
 
